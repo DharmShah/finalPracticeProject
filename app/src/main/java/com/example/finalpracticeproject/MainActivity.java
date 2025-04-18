@@ -1,5 +1,6 @@
 package com.example.finalpracticeproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -45,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
         time = findViewById(R.id.time);
         grouptext = findViewById(R.id.grouptext);
         country = findViewById(R.id.country);
-        volleyball = findViewById(R.id.volleyball);  // Fixed typo
+        volleyball = findViewById(R.id.volleyball);
         badminton = findViewById(R.id.badminton);
         cricket = findViewById(R.id.cricket);
-        gender = findViewById(R.id.gender);          // Important!
+        gender = findViewById(R.id.gender);
         button = findViewById(R.id.button);
 
         // Country dropdown setup
@@ -60,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Radio group selection
+
+                // Gender
                 int selectedId = gender.getCheckedRadioButtonId();
                 String genderText = "";
                 if (selectedId != -1) {
@@ -68,22 +70,22 @@ public class MainActivity extends AppCompatActivity {
                     genderText = genderbtn.getText().toString();
                 }
 
-                // Collect hobbies
-                String hobbies = "";
-                if (volleyball.isChecked()) hobbies += "VolleyBall ";
-                if (badminton.isChecked()) hobbies += "Badminton ";
-                if (cricket.isChecked()) hobbies += "Cricket ";
+                // Hobbies
+                StringBuilder hobbies = new StringBuilder();
+                if (volleyball.isChecked()) hobbies.append("Volleyball ");
+                if (badminton.isChecked()) hobbies.append("Badminton ");
+                if (cricket.isChecked()) hobbies.append("Cricket ");
 
-                // Collect text inputs
+                // Get all inputs
                 String namedd = name.getText().toString();
                 String emaildd = email.getText().toString();
                 String passworddd = password.getText().toString();
-                String grouptextdd = grouptext.getText().toString();
                 String datedd = date.getText().toString();
                 String timedd = time.getText().toString();
+                String grouptextdd = grouptext.getText().toString();
                 String countrydd = country.getText().toString();
 
-                // Log everything
+                // Logging
                 Log.v("FormData", "Name: " + namedd
                         + " | Email: " + emaildd
                         + " | Password: " + passworddd
@@ -93,6 +95,20 @@ public class MainActivity extends AppCompatActivity {
                         + " | Country: " + countrydd
                         + " | Hobbies: " + hobbies
                         + " | Gender: " + genderText);
+
+                // Intent setup
+                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                intent.putExtra("name", namedd);
+                intent.putExtra("email", emaildd);
+                intent.putExtra("password", passworddd);
+                intent.putExtra("date", datedd);
+                intent.putExtra("time", timedd);
+                intent.putExtra("grouptext", grouptextdd);
+                intent.putExtra("country", countrydd);
+                intent.putExtra("hobbies", hobbies.toString());
+                intent.putExtra("gender", genderText);
+
+                startActivity(intent);
             }
         });
     }
